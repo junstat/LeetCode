@@ -4,3 +4,4 @@ out/
 *.iml
 cmake-build-debug/
 Demo.*
+.DS_Store

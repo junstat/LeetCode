@@ -19,7 +19,6 @@ import java.util.Deque;
 public class Solution {
     public int maximalRectangle(char[][] matrix) {
         if (matrix == null || matrix.length == 0 || matrix[0].length == 0) return 0;
-        int row = matrix.length;
         int col = matrix[0].length;
         int[] heights = new int[col];
         int max = 0;

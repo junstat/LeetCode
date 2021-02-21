@@ -26,27 +26,20 @@ package Q100.Q004MedianofTwoSortedArrays;/*
 
 public class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        if (nums1.length > nums2.length) { // 保持短的数组在前。why?
-            return findMedianSortedArrays(nums2, nums1);
-        }
+        if (nums1.length > nums2.length) return findMedianSortedArrays(nums2, nums1);
         int len = nums1.length + nums2.length;
-        int cut1 = 0;
-        int cut2 = 0;
-        // 在nums1中执行二分查找
-        int start = 0;   // 查找起点
-        int end = nums1.length;  // 查找终点
-        while (cut1 <= nums1.length) {
-            cut1 = (end - start) / 2 + start;   // 二分
-            cut2 = len / 2 - cut1;  // 根据a. 及cu1 => cut2
+        // 在nums1上执行二分查找
+        int start = 0, end = nums1.length;
+        while (start <= end) {
+            int cut1 = start + (end - start) / 2;
+            int cut2 = len / 2 - cut1; // 根据 a. 及 cut1 => cut2
             double l1 = (cut1 == 0) ? Integer.MIN_VALUE : nums1[cut1 - 1];
             double l2 = (cut2 == 0) ? Integer.MIN_VALUE : nums2[cut2 - 1];
             double r1 = (cut1 == nums1.length) ? Integer.MAX_VALUE : nums1[cut1];
             double r2 = (cut2 == nums2.length) ? Integer.MAX_VALUE : nums2[cut2];
-            if (l1 > r2)
-                end = cut1 - 1;
-            else if (l2 > r1)
-                start = cut1 + 1;
-            else {  // get the correct position
+            if (l1 > r2) end = cut1 - 1;
+            else if (l2 > r1) start = cut1 + 1;
+            else {
                 if (len % 2 == 0) {
                     l1 = Math.max(l1, l2);
                     r1 = Math.min(r1, r2);
@@ -55,7 +48,7 @@ public class Solution {
                     return Math.min(r1, r2);
                 }
             }
-        } // end of while loop
+        }
         return -1;
     }
 }
