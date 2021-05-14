@@ -1,0 +1,11 @@
+1.1.4 What(if anything) is wrong with each of the following statements?
+a. if (a > b) then c = 0;
+b. if a > b { c = 0; }
+c. if (a > b) c = 0;
+d. if (a > b) c = 0 else b = 0;
+
+
+a) No such keyword as "then" in Java language.
+b) Missing braces on if conditional.
+c) Nothing wrong.
+d) Missing semicolon after the "then" clause.
