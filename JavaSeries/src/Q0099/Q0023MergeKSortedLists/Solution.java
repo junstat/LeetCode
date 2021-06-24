@@ -24,7 +24,7 @@ public class Solution {
        时间复杂度: O(k^2n) k = lists.size()
        空间复杂读: O(1)
       */
-    public ListNode mergeKLists1(ListNode[] lists) {
+    public ListNode mergeKLists(ListNode[] lists) {
         ListNode ans = null;
         for (ListNode list : lists) {
             ans = mergeTwoLists(ans, list);

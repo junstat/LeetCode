@@ -9,7 +9,7 @@ public class Solution {
     minimum sum to arrive at each point is simply an accumulation of previous points and the result is [1, 2, 3, 4].
       Now we can write down the following (unoptimized) code.
      */
-    public int minPathSum1(int[][] grid) {
+    public int minPathSum(int[][] grid) {
         int m = grid.length, n = grid[0].length;
         int[][] minSum = new int[m][n];
         minSum[0][0] = grid[0][0];
