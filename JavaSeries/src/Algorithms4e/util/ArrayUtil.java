@@ -1,5 +1,7 @@
 package Algorithms4e.util;
 
+import edu.princeton.cs.algs4.StdOut;
+
 @SuppressWarnings("unchecked")
 public class ArrayUtil {
 
@@ -15,6 +17,13 @@ public class ArrayUtil {
         Comparable temp = array[position1];
         array[position1] = array[position2];
         array[position2] = temp;
+    }
+
+    public static void show(Comparable[] a) {
+        // 在单行中打印数组
+        for (int i = 0; i < a.length; i++)
+            StdOut.print(a[i] + " ");
+        StdOut.println();
     }
 
     public static boolean isSorted(Comparable[] array) {
