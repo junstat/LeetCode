@@ -5,5 +5,5 @@ out/
 cmake-build-debug/
 Demo.*
 .DS_Store
-*/data/
+data/
 data/*.txt
