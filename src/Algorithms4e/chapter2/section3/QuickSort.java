@@ -1,6 +1,5 @@
 package Algorithms4e.chapter2.section3;
 
-import Algorithms4e.util.ArrayUtil;
 import edu.princeton.cs.algs4.StdRandom;
 
 public class QuickSort {
@@ -26,13 +25,13 @@ public class QuickSort {
         int highIndex = high + 1;
 
         while (true) {
-            while (ArrayUtil.less(array[++lowIndex], pivot)) {
+            while (less(array[++lowIndex], pivot)) {
                 if (lowIndex == high) {
                     break;
                 }
             }
 
-            while (ArrayUtil.less(pivot, array[--highIndex])) {
+            while (less(pivot, array[--highIndex])) {
                 if (highIndex == low) {
                     break;
                 }
@@ -42,11 +41,18 @@ public class QuickSort {
                 break;
             }
 
-            ArrayUtil.exchange(array, lowIndex, highIndex);
+            exch(array, lowIndex, highIndex);
         }
 
         // Place pivot in the right place
-        ArrayUtil.exchange(array, low, highIndex);
+        exch(array, low, highIndex);
         return highIndex;
+    }
+
+    private static void exch(Comparable[] array, int lowIndex, int highIndex) {
+    }
+
+    private static boolean less(Comparable comparable, Comparable pivot) {
+        return false;
     }
 }

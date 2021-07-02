@@ -1,7 +1,7 @@
 package DataStructure;
 
 public class TreeNode {
-    int val;
+    public Integer val;
     public TreeNode left;
     public TreeNode right;
 
