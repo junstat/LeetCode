@@ -24,7 +24,6 @@ package Algorithms4e.chapter2.section2;
  ******************************************************************************/
 
 import edu.princeton.cs.algs4.StdIn;
-import edu.princeton.cs.algs4.StdOut;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -50,39 +49,15 @@ import java.io.FileNotFoundException;
  * @author Robert Sedgewick
  * @author Kevin Wayne
  */
-public class Merge {
+public class Merge extends BaseMerge {
 
     // This class should not be instantiated.
     private Merge() {
     }
 
-    // stably merge a[lo .. mid] with a[mid+1 ..hi] using aux[lo .. hi]
-    private static void merge(Comparable[] a, Comparable[] aux, int lo, int mid, int hi) {
-        // 2.1 原地归并的抽象方法
-        // precondition: a[lo .. mid] and a[mid+1 .. hi] are sorted subarrays
-        assert isSorted(a, lo, mid);
-        assert isSorted(a, mid + 1, hi);
-
-        // copy to aux[]
-        for (int k = lo; k <= hi; k++)
-            aux[k] = a[k];
-
-        // merge back to a[]
-        int i = lo, j = mid + 1;
-        for (int k = lo; k <= hi; k++) {
-            if (i > mid) a[k] = aux[j++];           // 左边部分没有元素了
-            else if (j > hi) a[k] = aux[i++];       // 右边部分没有元素了
-            else if (less(aux[j], aux[i])) a[k] = aux[j++];     // 右边小
-            else a[k] = aux[i++];                               // 左边小
-        }
-
-        // postcondition: a[lo ... hi] is sorted
-        assert isSorted(a, lo, hi);
-    }
-
     // mergesort a[lo ... hi] using auxiliary array aux[lo ... hi]
     private static void sort(Comparable[] a, Comparable[] aux, int lo, int hi) {
-        // 2.4 自顶向下的归并排序
+        // 2.2.2 自顶向下的归并排序
         if (hi <= lo) return;
         int mid = lo + (hi - lo) / 2;
         sort(a, aux, lo, mid);
@@ -99,28 +74,6 @@ public class Merge {
         Comparable[] aux = new Comparable[a.length];
         sort(a, aux, 0, a.length - 1);
         assert isSorted(a);
-    }
-
-    /***************************************************************************
-     *  Helper sorting function.
-     ***************************************************************************/
-
-    // is v < w ?
-    private static boolean less(Comparable v, Comparable w) {
-        return v.compareTo(w) < 0;
-    }
-
-    /***************************************************************************
-     *  Check if array is sorted - useful for debugging.
-     ***************************************************************************/
-    private static boolean isSorted(Comparable[] a) {
-        return isSorted(a, 0, a.length - 1);
-    }
-
-    private static boolean isSorted(Comparable[] a, int lo, int hi) {
-        for (int i = lo + 1; i <= hi; i++)
-            if (less(a[i], a[i - 1])) return false;
-        return true;
     }
 
     /***************************************************************************
@@ -169,13 +122,6 @@ public class Merge {
         sort(a, index, aux, lo, mid);
         sort(a, index, aux, mid + 1, hi);
         merge(a, index, aux, lo, mid, hi);
-    }
-
-    // print array to standard output
-    private static void show(Comparable[] a) {
-        for (int i = 0; i < a.length; i++) {
-            StdOut.println(a[i]);
-        }
     }
 
     /**

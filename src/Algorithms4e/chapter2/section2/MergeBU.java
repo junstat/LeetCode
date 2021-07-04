@@ -1,45 +1,46 @@
-package Algorithms4e.chapter2.section1;
+package Algorithms4e.chapter2.section2;
+
 /******************************************************************************
- *  Compilation:  javac Shell.java
- *  Execution:    java Shell < input.txt
+ *  Compilation:  javac MergeBU.java
+ *  Execution:    java MergeBU < input.txt
  *  Dependencies: StdOut.java StdIn.java
- *  Data files:   https://algs4.cs.princeton.edu/21elementary/tiny.txt
- *                https://algs4.cs.princeton.edu/21elementary/words3.txt
+ *  Data files:   https://algs4.cs.princeton.edu/22mergesort/tiny.txt
+ *                https://algs4.cs.princeton.edu/22mergesort/words3.txt
  *
- *  Sorts a sequence of strings from standard input using shellsort.
+ *  Sorts a sequence of strings from standard input using
+ *  bottom-up mergesort.
  *
  *  % more tiny.txt
  *  S O R T E X A M P L E
  *
- *  % java Shell < tiny.txt
+ *  % java MergeBU < tiny.txt
  *  A E E L M O P R S T X                 [ one string per line ]
  *
  *  % more words3.txt
  *  bed bug dad yes zoo ... all bad yet
  *
- *  % java Shell < words3.txt
+ *  % java MergeBU < words3.txt
  *  all bad bed bug dad ... yes yet zoo    [ one string per line ]
- *
  *
  ******************************************************************************/
 
-import Algorithms4e.chapter2.base.BaseSort;
 import edu.princeton.cs.algs4.StdIn;
-import edu.princeton.cs.algs4.StdOut;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 /**
- * The {@code Shell} class provides static methods for sorting an
- * array using <em>Shellsort</em> with
- * <a href = "https://oeis.org/A003462"> Knuth's increment sequence</a>
- * (1, 4, 13, 40, ...). In the worst case, this implementation makes
- * &Theta;(<em>n</em><sup>3/2</sup>) compares and exchanges to sort
- * an array of length <em>n</em>.
+ * The {@code MergeBU} class provides static methods for sorting an
+ * array using <em>bottom-up mergesort</em>. It is non-recursive.
  * <p>
- * This sorting algorithm is not stable.
- * It uses &Theta;(1) extra memory (not including the input array).
+ * This implementation takes &Theta;(<em>n</em> log <em>n</em>) time
+ * to sort any array of length <em>n</em> (assuming comparisons
+ * take constant time). It makes between
+ * ~ &frac12; <em>n</em> log<sub>2</sub> <em>n</em> and
+ * ~ 1 <em>n</em> log<sub>2</sub> <em>n</em> compares.
+ * <p>
+ * This sorting algorithm is stable.
+ * It uses &Theta;(<em>n</em>) extra memory (not including the input array).
  * <p>
  * For additional documentation, see
  * <a href="https://algs4.cs.princeton.edu/21elementary">Section 2.1</a> of
@@ -48,9 +49,9 @@ import java.io.FileNotFoundException;
  * @author Robert Sedgewick
  * @author Kevin Wayne
  */
-public class Shell extends BaseSort {
+public class MergeBU extends BaseMerge {
     // This class should not be instantiated.
-    private Shell() {
+    private MergeBU() {
     }
 
     /**
@@ -60,26 +61,20 @@ public class Shell extends BaseSort {
      */
     public static void sort(Comparable[] a) {
         int n = a.length;
-
-        // 3x + 1 increment sequence: 1, 4, 13, 40, 121, 364, 1093, ....
-        int h = 1;
-        while (h < n / 3) h = 3 * h + 1;
-
-        while (h >= 1) {
-            // h-sort the array
-            for (int i = h; i < n; i++) {
-                for (int j = i; j >= h && less(a[j], a[j - h]); j -= h)
-                    exch(a, j, j - h);
+        Comparable[] aux = new Comparable[n];
+        for (int len = 1; len < n; len *= 2) {
+            for (int lo = 0; lo < n - len; lo += len + len) {
+                int mid = lo + len - 1;
+                int hi = Math.min(lo + len + len - 1, n - 1);
+                merge(a, aux, lo, mid, hi);
             }
-            assert isHsorted(a, h);
-            h /= 3;
         }
         assert isSorted(a);
     }
 
     /**
-     * Reads in a sequence of strings from standard input; Shellsorts them;
-     * and prints them to standard output in ascending order.
+     * Reads in a sequence of strings from standard input; bottom-up
+     * mergesorts them; and prints them to standard output in ascending order.
      *
      * @param args the command-line arguments
      */
@@ -88,8 +83,7 @@ public class Shell extends BaseSort {
         FileInputStream fis = new FileInputStream(inputFilePath);
         System.setIn(fis);
         String[] a = StdIn.readAllStrings();
-        Shell.sort(a);
+        MergeBU.sort(a);
         show(a);
     }
-
 }
